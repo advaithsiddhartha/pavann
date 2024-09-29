@@ -54,7 +54,7 @@ def show_page():
     # Streamlit app layout
     st.title("Air Quality Dashboard - India")
     st.info("`TEAM SIRIUS _ SMART INDIA HACKATHON`")
-    st.success("R. Krishna Advaith Siddhartha ,  V. Subhash ,  S. Ravi Teja  ,   R. Bhoomika   , K.R. Nakshathra    , M. Abhinav")
+    st.success("R. Krishna Advaith Siddhartha , R. Bhoomika  , K.R. Nakshathra    ,  S. Ravi Teja  ,   V. Subhash ,  M. Abhinav")
     # Use hardcoded fallback for states and cities
     states = list(INDIAN_STATES_CITIES.keys())
 
