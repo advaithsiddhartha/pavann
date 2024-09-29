@@ -97,11 +97,29 @@ def show_page():
 
                 # Step 9: Plot Actual vs Predicted
                 fig2 = go.Figure()
-                fig2.add_trace(go.Scatter(x=np.arange(len(Y_test_rescaled)), y=Y_test_rescaled, mode='lines', name='Actual NO₂ Levels', line=dict(color='orange')))
-                fig2.add_trace(go.Scatter(x=np.arange(len(Y_pred_rescaled)), y=Y_pred_rescaled, mode='lines', name='Predicted NO₂ Levels', line=dict(color='green')))
-                fig2.update_layout(title='Actual vs Predicted NO₂ Levels', xaxis_title='Samples', yaxis_title='NO₂ Levels')
-                st.plotly_chart(fig2)
 
+# Adding the actual NO₂ levels to the plot
+                fig2.add_trace(go.Scatter(x=np.arange(len(Y_test_rescaled)), 
+                                           y=Y_test_rescaled.flatten(), 
+                                           mode='lines', 
+                                           name='Actual NO₂ Levels', 
+                                           line=dict(color='orange')))
+                
+                # Adding the predicted NO₂ levels to the plot
+                fig2.add_trace(go.Scatter(x=np.arange(len(Y_pred_rescaled)), 
+                                           y=Y_pred_rescaled.flatten(), 
+                                           mode='lines', 
+                                           name='Predicted NO₂ Levels', 
+                                           line=dict(color='green')))
+                
+                # Updating layout for better visualization
+                fig2.update_layout(title='Actual vs Predicted NO₂ Levels',
+                                   xaxis_title='Samples',
+                                   yaxis_title='NO₂ Levels',
+                                   legend=dict(x=0, y=1.0))
+                
+                # Displaying the plot in Streamlit
+                st.plotly_chart(fig2)
                 # Step 10: Histogram of NO₂ Levels
                 fig3 = go.Figure()
                 fig3.add_trace(go.Histogram(x=data['NO2(GT)'], nbinsx=30, name='NO₂ Levels', marker_color='purple'))
