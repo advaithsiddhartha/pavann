@@ -4,7 +4,7 @@ import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
-import matplotlib.pyplot as plt
+import plotly.graph_objects as go
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense, Dropout
 
@@ -48,13 +48,10 @@ def show_page():
                 st.write(no2_data_normalized[:5])
                 
                 # Plot 1: Time Series of Original NO₂ Levels
-                fig1, ax1 = plt.subplots()
-                ax1.plot(data['NO2(GT)'], label='Original NO₂ Levels', color='blue')
-                ax1.set_title('Time Series of NO₂ Levels')
-                ax1.set_xlabel('Time')
-                ax1.set_ylabel('NO₂ Levels')
-                ax1.legend()
-                st.pyplot(fig1)
+                fig1 = go.Figure()
+                fig1.add_trace(go.Scatter(x=data.index, y=data['NO2(GT)'], mode='lines', name='Original NO₂ Levels', line=dict(color='blue')))
+                fig1.update_layout(title='Time Series of NO₂ Levels', xaxis_title='Time', yaxis_title='NO₂ Levels')
+                st.plotly_chart(fig1)
 
                 # Step 5: Train/Test Split
                 def create_dataset(data, time_step=1):
@@ -99,45 +96,30 @@ def show_page():
                 st.write(f"Mean Squared Error on Test Data: {mse}")
 
                 # Step 9: Plot Actual vs Predicted
-                fig2, ax2 = plt.subplots()
-                ax2.plot(Y_test_rescaled, label="Actual NO₂ Levels", color='orange')
-                ax2.plot(Y_pred_rescaled, label="Predicted NO₂ Levels", color='green')
-                ax2.set_title("Actual vs Predicted NO₂ Levels")
-                ax2.legend()
-                st.pyplot(fig2)
+                fig2 = go.Figure()
+                fig2.add_trace(go.Scatter(x=np.arange(len(Y_test_rescaled)), y=Y_test_rescaled, mode='lines', name='Actual NO₂ Levels', line=dict(color='orange')))
+                fig2.add_trace(go.Scatter(x=np.arange(len(Y_pred_rescaled)), y=Y_pred_rescaled, mode='lines', name='Predicted NO₂ Levels', line=dict(color='green')))
+                fig2.update_layout(title='Actual vs Predicted NO₂ Levels', xaxis_title='Samples', yaxis_title='NO₂ Levels')
+                st.plotly_chart(fig2)
 
                 # Step 10: Histogram of NO₂ Levels
-                fig3, ax3 = plt.subplots()
-                ax3.hist(data['NO2(GT)'], bins=30, color='purple', alpha=0.7)
-                ax3.set_title("Histogram of NO₂ Levels")
-                ax3.set_xlabel("NO₂ Levels")
-                ax3.set_ylabel("Frequency")
-                st.pyplot(fig3)
+                fig3 = go.Figure()
+                fig3.add_trace(go.Histogram(x=data['NO2(GT)'], nbinsx=30, name='NO₂ Levels', marker_color='purple'))
+                fig3.update_layout(title='Histogram of NO₂ Levels', xaxis_title='NO₂ Levels', yaxis_title='Frequency')
+                st.plotly_chart(fig3)
 
-                # Step 11: Box Plot of NO₂ Levels
-                fig4, ax4 = plt.subplots()
-                ax4.boxplot(data['NO2(GT)'], vert=False)
-                ax4.set_title("Box Plot of NO₂ Levels")
-                ax4.set_xlabel("NO₂ Levels")
-                st.pyplot(fig4)
+                # Step 11: Predicted vs Actual Scatter Plot
+                fig4 = go.Figure()
+                fig4.add_trace(go.Scatter(x=Y_test_rescaled.flatten(), y=Y_pred_rescaled.flatten(), mode='markers', name='Predicted vs Actual', marker=dict(color='red', size=5)))
+                fig4.add_trace(go.Scatter(x=[Y_test_rescaled.min(), Y_test_rescaled.max()], y=[Y_test_rescaled.min(), Y_test_rescaled.max()], mode='lines', name='Perfect Prediction', line=dict(color='blue', dash='dash')))
+                fig4.update_layout(title='Predicted vs Actual NO₂ Levels', xaxis_title='Actual NO₂ Levels', yaxis_title='Predicted NO₂ Levels')
+                st.plotly_chart(fig4)
 
-                # Step 12: Predicted vs Actual Scatter Plot
-                fig5, ax5 = plt.subplots()
-                ax5.scatter(Y_test_rescaled, Y_pred_rescaled, color='red')
-                ax5.set_title("Predicted vs Actual NO₂ Levels")
-                ax5.set_xlabel("Actual NO₂ Levels")
-                ax5.set_ylabel("Predicted NO₂ Levels")
-                ax5.plot([Y_test_rescaled.min(), Y_test_rescaled.max()], [Y_test_rescaled.min(), Y_test_rescaled.max()], color='blue', linestyle='--')
-                st.pyplot(fig5)
-
-                # Step 13: Loss Plot
-                fig6, ax6 = plt.subplots()
-                ax6.plot(history.history['loss'], label='Loss', color='teal')
-                ax6.set_title("Model Loss over Epochs")
-                ax6.set_xlabel("Epochs")
-                ax6.set_ylabel("Loss")
-                ax6.legend()
-                st.pyplot(fig6)
+                # Step 12: Loss Plot
+                fig5 = go.Figure()
+                fig5.add_trace(go.Scatter(x=np.arange(len(history.history['loss'])), y=history.history['loss'], mode='lines', name='Loss', line=dict(color='teal')))
+                fig5.update_layout(title='Model Loss over Epochs', xaxis_title='Epochs', yaxis_title='Loss')
+                st.plotly_chart(fig5)
 
             else:
                 st.error("NO₂ column not found in the dataset.")
