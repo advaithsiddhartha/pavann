@@ -13,7 +13,7 @@ def show_page():
     # Title of the app
     st.title("Air Quality Data Analysis with LSTM")
     st.info("`TEAM SIRIUS _ SMART INDIA HACKATHON`")
-    st.success("R. Krishna Advaith Siddhartha , S. Ravi Teja   ,   R. Bhoomika    , V. Subhash    , K.R. Nakshathra    , M. Abhinav")
+    st.success(" R. Krishna Advaith Siddhartha  ,  S. Ravi Teja , R. Bhoomika    , V. Subhash    , K.R. Nakshathra    , M. Abhinav")
     # Step 1: File uploader for CSV file
     uploaded_file = st.file_uploader("Upload your CSV file", type="csv")
 
