@@ -132,11 +132,11 @@ def show_page():
                 fig4.add_trace(go.Scatter(x=[Y_test_rescaled.min(), Y_test_rescaled.max()], y=[Y_test_rescaled.min(), Y_test_rescaled.max()], mode='lines', name='Perfect Prediction', line=dict(color='blue', dash='dash')))
                 fig4.update_layout(title='Predicted vs Actual NO₂ Levels', xaxis_title='Actual NO₂ Levels', yaxis_title='Predicted NO₂ Levels')
                 st.plotly_chart(fig4)
-
+                
                 # Step 12: Loss Plot
                 fig5 = go.Figure()
                 fig5.add_trace(go.Scatter(x=np.arange(len(history.history['loss'])), y=history.history['loss'], mode='lines', name='Loss', line=dict(color='teal')))
-                fig5.update_layout(title='Model Loss over Epochs', xaxis_title='Epochs', yaxis_title='Loss')
+                fig5.update_layout(title='Model Loss over Epochs ( Epochs listed from 91-99 ; 90 + *(1-9))', xaxis_title='Epochs', yaxis_title='Loss')
                 st.plotly_chart(fig5)
 
             else:
