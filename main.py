@@ -64,7 +64,7 @@ def get_base64_image(image_path):
 
 # Set page layout to wide
 st.set_page_config(layout="wide")
-page = st_navbar(["API WINDOW", "LATITUDE AND LONGITUDE TRACING", "LSTM MODEL WINDOW" , "LOGIN" ])
+page = st_navbar(["API WINDOW", "LATITUDE AND LONGITUDE TRACING", "LSTM MODEL WINDOW" , "LOGIN" , "🔔"])
 
 # Load the banner image
 banner_image_base64 = get_base64_image('./1.png')  # Make sure the path is correct
