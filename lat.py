@@ -23,7 +23,7 @@ def get_no2_value(color):
 def show_page():
     st.title("Map Latitude and Longitude Selection Window")
     st.info("`TEAM SIRIUS _ SMART INDIA HACKATHON`")
-    st.success("R. Krishna Advaith Siddhartha ,  V. Subhash  , S. Ravi Teja   ,   R. Bhoomika    ,   , K.R. Nakshathra    , M. Abhinav")
+    st.success("R. Krishna Advaith Siddhartha ,  V. Subhash  , S. Ravi Teja   ,  K.R. Nakshathra , R. Bhoomika        , M. Abhinav")
     # Initialize session state
     if 'clicked_coords' not in st.session_state:
         st.session_state.clicked_coords = (0, 0)
