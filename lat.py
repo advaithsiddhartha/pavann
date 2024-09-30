@@ -40,7 +40,14 @@ def show_page():
         "Delhi": "del.png",
         "Ahmedabad": "ahm.png",
         "Visakhapatnam": "vskp.png",
-        "Bengaluru": "bng.png"
+        "Bengaluru": "bng.png",
+        "Bhopal":"bpl.png",
+        "Indore":"ind.png",
+        "Jaipur":"jpr.png",
+        "Kanpur":"knp.png",
+        "Lucknow":"lkn.png",
+        "Patna":"ptn.png",
+        "Surat":"srt.png",
     }
 
     # Button to continue with existing shape files
