@@ -1,5 +1,101 @@
 import streamlit as st
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw , ImageEnhance
+import numpy as np
+import plotly.express as px
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
+
+def enhance_image(image):
+    """Enhance the image sharpness."""
+    enhancer = ImageEnhance.Sharpness(image)
+    enhanced_image = enhancer.enhance(8.0)  # Set sharpness to 10.0
+    return enhanced_image
+
+def image_to_color_array(image):
+    """Convert the uploaded image to a NumPy color array."""
+    img_array = np.array(image)
+
+    # Check if the image has an alpha channel (RGBA), remove it
+    if img_array.shape[2] == 4:
+        img_array = img_array[:, :, :3]  # Keep only RGB channels
+
+    return img_array
+
+def plot_color_distribution(image_array):
+    """Plot the distribution of colors in the image."""
+    reshaped_array = image_array.reshape(-1, 3)
+    
+    color_data = {
+        'Red': reshaped_array[:, 0],
+        'Green': reshaped_array[:, 1],
+        'Blue': reshaped_array[:, 2],
+    }
+
+    fig = px.histogram(
+        color_data,
+        title="RGB Color Distribution",
+        labels={'value': 'Pixel Intensity'},
+        barmode='overlay',
+        histnorm='density'
+    )
+    fig.update_traces(opacity=0.75)
+    fig.update_layout(
+        xaxis_title="Pixel Intensity",
+        yaxis_title="Density",
+        legend_title="Color Channels",
+        font=dict(size=12)
+    )
+    return fig
+
+def plot_comparison_matrix(image_array):
+    """Create a comparison matrix graph for RGB channel pixel intensities."""
+    reshaped_array = image_array.reshape(-1, 3)
+
+    fig = make_subplots(rows=1, cols=3, subplot_titles=("Red Channel Intensity", "Green Channel Intensity", "Blue Channel Intensity"))
+
+    for i, color in enumerate(['Red', 'Green', 'Blue']):
+        fig.add_trace(
+            go.Histogram(x=reshaped_array[:, i], name=color, opacity=0.75, marker_color=color.lower()),
+            row=1, col=i + 1
+        )
+
+    fig.update_layout(
+        title_text="Comparison of Pixel Intensities Across RGB Channels",
+        xaxis_title="Pixel Intensity",
+        yaxis_title="Frequency",
+        showlegend=False
+    )
+
+    for i in range(1, 4):
+        fig.update_xaxes(title_text="Pixel Intensity", row=1, col=i)
+        fig.update_yaxes(title_text="Frequency", row=1, col=i)
+
+    return fig
+
+def plot_intensity_comparison(image_array):
+    """Plot the average pixel intensities for each channel."""
+    reshaped_array = image_array.reshape(-1, 3)
+    avg_intensities = np.mean(reshaped_array, axis=0)
+
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(
+        x=['Red', 'Green', 'Blue'],
+        y=avg_intensities,
+        mode='lines+markers',
+        name='Average Intensity',
+        marker=dict(size=10),
+        line=dict(width=2)
+    ))
+
+    fig.update_layout(
+        title="Average Pixel Intensities for RGB Channels",
+        xaxis_title="Color Channels",
+        yaxis_title="Average Pixel Intensity",
+        yaxis=dict(range=[0, 255]),
+        font=dict(size=12)
+    )
+    
+    return fig
 
 def pixelate(image, pixel_size):
     """Pixelate the input image by reducing its size and scaling it back up."""
@@ -92,19 +188,77 @@ def show_page():
                 bottom = min(height, y + 5)
 
                 cropped_image = image.crop((left, top, right, bottom)).resize((10, 10))
-                st.image(cropped_image.resize((100, 100)), caption="Cropped Image (10x10)", use_column_width=False)
 
                 # Get the average color of the cropped image
                 avg_color = cropped_image.getcolors(cropped_image.size[0] * cropped_image.size[1])
                 avg_color = max(avg_color)[1] if avg_color else (0, 0, 0)
 
                 # Get the NO2 value based on the average color
-                no2_value = get_no2_value(avg_color)
                 st.write(f"Estimated NO2 Value: 3.1 µg/m³")
 
                 # Pixelate the cropped image
-                pixelated_image = pixelate(cropped_image, pixel_size=1)
-                st.image(pixelated_image.resize((100, 100)), caption="Pixelated Cropped Image", use_column_width=False)
+                pixelated_image = enhance_image(cropped_image)
+                col1,col2 = st.columns(2)
+                with col1 : 
+                        st.image(cropped_image.resize((100, 100)), caption="Cropped Image (10x10)", use_column_width=False)
+                with col2 :
+                        st.image(pixelated_image.resize((100, 100)), caption="Pixelated Cropped Image", use_column_width=False)
+
+                col1 , col2 = st.columns(2)
+
+                with col1 : 
+                    img_array = image_to_color_array(cropped_image )
+                    st.write("Image Shape:", img_array.shape)
+                    st.write("Image NumPy Array (Sample):", img_array.flatten().flatten())  # Show a sample of the array
+                with col2 :
+                    img_array = image_to_color_array(pixelated_image )
+                    st.write("Image Shape:", img_array.shape)
+                    st.write("Image NumPy Array (Sample):", img_array.flatten())  # Show a sample of the array
+                col1 , col2 = st.columns(2)
+                with col1 : 
+                # Plot the color distribution of the image
+                    img_array = image_to_color_array(cropped_image )
+                    fig_distribution = plot_color_distribution(img_array)
+                    st.plotly_chart(fig_distribution)
+                with col2:
+                    img_array = image_to_color_array(pixelated_image )
+                    fig_distribution = plot_color_distribution(img_array)
+                    st.plotly_chart(fig_distribution)
+
+                col1 , col2 = st.columns(2)
+                with col1 : 
+                # Plot comparison matrix for pixel intensities
+                    img_array = image_to_color_array(cropped_image )
+                    fig_comparison = plot_comparison_matrix(img_array)
+                    st.plotly_chart(fig_comparison)
+                with col2:
+                    img_array = image_to_color_array(pixelated_image )
+                    fig_comparison = plot_comparison_matrix(img_array)
+                    st.plotly_chart(fig_comparison)
+
+                    # Plot average pixel intensities for each channel
+                col1 , col2 = st.columns(2)
+                with col1 : 
+                    img_array = image_to_color_array(cropped_image )
+                    fig_avg_intensity = plot_intensity_comparison(img_array)
+                    st.plotly_chart(fig_avg_intensity)
+                
+                # Plot comparison matrix for pixel intensities
+                    
+                with col2:
+                     img_array = image_to_color_array(pixelated_image )
+                     fig_avg_intensity = plot_intensity_comparison(img_array)
+                     st.plotly_chart(fig_avg_intensity)
+               
+                
+                # Plot the color distribution of the image
+                
+                # Plot comparison matrix for pixel intensities
+               
+
+                # Plot average pixel intensities for each channel
+               
+
 
     # Allow users to upload their own image if not using existing shape files
     else:
