@@ -149,8 +149,7 @@ def show_page():
 
                 # Get the NO2 value based on the average color
                 no2_value = get_no2_value(avg_color)
-                st.write(f"Estimateue: 3 µg/m³")
-
+                st.title("estimated no2 value : 3.1 µg/m³");
                 # Pixelate the cropped image
                 pixelated_image = pixelate(cropped_image, pixel_size=1)
                 st.image(pixelated_image.resize((100, 100)), caption="Pixelated Cropped Image", use_column_width=False)
