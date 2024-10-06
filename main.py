@@ -9,7 +9,7 @@ st.write(
 )
 
 # Embed the YouTube video
-video_url = " https://youtu.be/2FBeQwbQXPA"
+video_url = "https://youtu.be/2FBeQwbQXPA"
 st.markdown(
     f'<iframe width="560" height="315" src="{video_url}" frameborder="0" allowfullscreen></iframe>',
     unsafe_allow_html=True
