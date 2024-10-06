@@ -31,7 +31,6 @@ st.markdown(f"""
     .banner-image {{
         width: 100%;
         height: auto;
-             position: absolute;
         z-index: -1; 
     }}
     </style>
