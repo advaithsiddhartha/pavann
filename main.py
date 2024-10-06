@@ -17,7 +17,7 @@ st.set_page_config(layout="wide")
 st.markdown("""
     <style>
     .css-18e3th9 {
-        padding-top: 1rem;  /* Adjust this value to move the navbar down */
+        padding-top: 1px;  /* Adjust this value to move the navbar down */
     }
     </style>
 """, unsafe_allow_html=True)
@@ -31,6 +31,8 @@ st.markdown(f"""
     .banner-image {{
         width: 100%;
         height: auto;
+             position: absolute;
+        z-index: -1; 
     }}
     </style>
     <div>
@@ -77,3 +79,4 @@ elif page == "LATITUDE AND LONGITUDE TRACING":
     lat.show_page()
 elif page == "LSTM MODEL WINDOW":
     model.show_page()
+
