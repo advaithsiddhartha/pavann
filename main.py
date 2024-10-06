@@ -8,7 +8,7 @@ st.write(
 st.subheader("App Update Notice")
 
 # Add a message about the update
-st.write(
+st.success(
     "We're updating our app for enhanced functionalities. Here is a video of the prototype of the first version:"
 )
 
