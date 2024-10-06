@@ -8,8 +8,8 @@ st.write(
     "We're updating our app for enhanced functionalities. Here is a video of the prototype of the first version:"
 )
 
-# Embed the YouTube video
-video_url = "https://www.youtube.com/watch?v=2FBeQwbQXPA"
+# Embed the updated YouTube video
+video_url = "https://www.youtube.com/embed/2FBeQwbQXPA"
 st.markdown(
     f'<iframe width="560" height="315" src="{video_url}" frameborder="0" allowfullscreen></iframe>',
     unsafe_allow_html=True
