@@ -5,7 +5,7 @@ st.title("Team Sirius Presents Pavan.AI")
 st.write(
     "An innovative platform for real-time air quality monitoring in India, utilizing AI/ML for accurate NO2 data visualization."
 )
-st.subheader("App Update Notice")
+st.info("App Update Notice")
 
 # Add a message about the update
 st.success(
