@@ -1,6 +1,8 @@
 import streamlit as st
 
 # Set the title of the app
+st.title("Team Sirius Presents Pavan.AI")
+
 st.title("App Update Notice")
 
 # Add a message about the update
