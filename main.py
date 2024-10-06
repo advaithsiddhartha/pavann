@@ -2,8 +2,10 @@ import streamlit as st
 
 # Set the title of the app
 st.title("Team Sirius Presents Pavan.AI")
-
-st.title("App Update Notice")
+st.write(
+    "An innovative platform for real-time air quality monitoring in India, utilizing AI/ML for accurate NO2 data visualization."
+)
+st.subheader("App Update Notice")
 
 # Add a message about the update
 st.write(
@@ -18,7 +20,6 @@ st.markdown(
 )
 
 # Add information about Team Sirius and Pavan.AI
-st.subheader("Team Sirius Presents Pavan.AI")
 st.write(
     "An innovative platform for real-time air quality monitoring in India, utilizing AI/ML for accurate NO2 data visualization."
 )
