@@ -20,9 +20,6 @@ st.markdown(
 )
 
 # Add information about Team Sirius and Pavan.AI
-st.write(
-    "An innovative platform for real-time air quality monitoring in India, utilizing AI/ML for accurate NO2 data visualization."
-)
 
 # Highlights section
 st.subheader("Highlights")
