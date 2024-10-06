@@ -11,7 +11,7 @@ st.write(
 # Embed the updated YouTube video
 video_url = "https://www.youtube.com/embed/2FBeQwbQXPA"
 st.markdown(
-    f'<iframe width="560" height="315" src="{video_url}" frameborder="0" allowfullscreen></iframe>',
+    f'<iframe width="80%" height="315" src="{video_url}" frameborder="0" allowfullscreen></iframe>',
     unsafe_allow_html=True
 )
 
