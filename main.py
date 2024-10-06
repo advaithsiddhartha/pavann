@@ -9,7 +9,7 @@ st.subheader("App Update Notice")
 
 # Add a message about the update
 st.success(
-    "We're updating our app for enhanced functionalities. Here is a video of the prototype of the first version:"
+    "We're updating our app for enhanced functionalities. Here is a video of the prototype of the first version: (Last Updated : 5th October)"
 )
 
 # Embed the updated YouTube video
